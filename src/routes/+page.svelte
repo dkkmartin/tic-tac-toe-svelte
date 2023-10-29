@@ -1,2 +1,11 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import Changethemebtn from '../components/changethemebtn.svelte';
+</script>
+
+<main class="flex flex-col items-center justify-center h-screen gap-5">
+	<Changethemebtn />
+	<h1 class="text-8xl">Tic-tac-toe</h1>
+	<div>
+		<button class="btn btn-primary">Play</button>
+	</div>
+</main>
