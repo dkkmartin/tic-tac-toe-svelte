@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
 	import Changethemebtn from '$lib/components/changethemebtn.svelte'
-	import { player } from '$lib/stores'
+	import { player, winner } from '$lib/stores'
+	import { onMount } from 'svelte'
 
 	function playAs(symbol: string) {
 		player.set(symbol)
@@ -10,6 +11,9 @@
 	function navigate() {
 		goto('/game')
 	}
+	onMount(() => {
+		winner.set('')
+	})
 </script>
 
 <main class="flex flex-col items-center justify-center h-screen gap-5">

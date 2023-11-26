@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Changethemebtn from '$lib/components/changethemebtn.svelte'
-	import { player } from '$lib/stores'
+	import Playagain from '$lib/components/playagain.svelte'
+	import { player, winner } from '$lib/stores'
 
 	let currentPlayer: string
 	$: currentPlayer = $player
@@ -18,8 +19,12 @@
 		//@ts-expect-error
 		board[target.dataset.row][target.dataset.col] = currentPlayer
 		target.textContent = currentPlayer
-		console.log(board)
-		playerSwitcher()
+		const playerWinner = winHandler()
+		if (playerWinner !== null) {
+			winner.set(playerWinner)
+		} else {
+			playerSwitcher()
+		}
 	}
 
 	function playerSwitcher() {
@@ -52,72 +57,76 @@
 	}
 </script>
 
-<main class="flex flex-col gap-4 w-screen h-screen justify-center items-center">
-	<Changethemebtn />
-	<h1 class="text-5xl">Player "{currentPlayer}" turn</h1>
-	<section class="board grid grid-cols-3 h-[750px] w-[750px]">
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div
-			on:click={clickHandler}
-			data-row="0"
-			data-col="0"
-			class="cell h-[250px] w-[250px] border flex justify-center items-center text-8xl"
-		/>
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div
-			on:click={clickHandler}
-			data-row="0"
-			data-col="1"
-			class="cell h-[250px] w-[250px] border border-r-0 border-l-0 border-b-0 flex justify-center items-center text-8xl"
-		/>
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div
-			on:click={clickHandler}
-			data-row="0"
-			data-col="2"
-			class="cell h-[250px] w-[250px] border flex justify-center items-center text-8xl"
-		/>
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div
-			on:click={clickHandler}
-			data-row="1"
-			data-col="0"
-			class="cell h-[250px] w-[250px] border border-t-0 border-b-0 flex justify-center items-center text-8xl"
-		/>
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div
-			on:click={clickHandler}
-			data-row="1"
-			data-col="1"
-			class="cell h-[250px] w-[250px] border border-r-0 border-l-0 border-b-0 flex justify-center items-center text-8xl"
-		/>
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div
-			on:click={clickHandler}
-			data-row="1"
-			data-col="2"
-			class="cell h-[250px] w-[250px] border border-t-0 border-b-0 flex justify-center items-center text-8xl"
-		/>
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div
-			on:click={clickHandler}
-			data-row="2"
-			data-col="0"
-			class="cell h-[250px] w-[250px] border flex justify-center items-center text-8xl"
-		/>
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div
-			on:click={clickHandler}
-			data-row="2"
-			data-col="1"
-			class="cell h-[250px] w-[250px] border border-r-0 border-l-0 flex justify-center items-center text-8xl"
-		/>
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div
-			on:click={clickHandler}
-			data-row="2"
-			data-col="2"
-			class="cell h-[250px] w-[250px] border flex justify-center items-center text-8xl"
-		/>
-	</section>
-</main>
+{#if $winner}
+	<Playagain />
+{:else}
+	<main class="flex flex-col gap-4 w-screen h-screen justify-center items-center">
+		<Changethemebtn />
+		<h1 class="text-5xl">Player "{currentPlayer}" turn</h1>
+		<section class="board grid grid-cols-3 h-[750px] w-[750px]">
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<div
+				on:click={clickHandler}
+				data-row="0"
+				data-col="0"
+				class="cell h-[250px] w-[250px] border flex justify-center items-center text-8xl"
+			/>
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<div
+				on:click={clickHandler}
+				data-row="0"
+				data-col="1"
+				class="cell h-[250px] w-[250px] border border-r-0 border-l-0 border-b-0 flex justify-center items-center text-8xl"
+			/>
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<div
+				on:click={clickHandler}
+				data-row="0"
+				data-col="2"
+				class="cell h-[250px] w-[250px] border flex justify-center items-center text-8xl"
+			/>
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<div
+				on:click={clickHandler}
+				data-row="1"
+				data-col="0"
+				class="cell h-[250px] w-[250px] border border-t-0 border-b-0 flex justify-center items-center text-8xl"
+			/>
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<div
+				on:click={clickHandler}
+				data-row="1"
+				data-col="1"
+				class="cell h-[250px] w-[250px] border border-r-0 border-l-0 border-b-0 flex justify-center items-center text-8xl"
+			/>
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<div
+				on:click={clickHandler}
+				data-row="1"
+				data-col="2"
+				class="cell h-[250px] w-[250px] border border-t-0 border-b-0 flex justify-center items-center text-8xl"
+			/>
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<div
+				on:click={clickHandler}
+				data-row="2"
+				data-col="0"
+				class="cell h-[250px] w-[250px] border flex justify-center items-center text-8xl"
+			/>
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<div
+				on:click={clickHandler}
+				data-row="2"
+				data-col="1"
+				class="cell h-[250px] w-[250px] border border-r-0 border-l-0 flex justify-center items-center text-8xl"
+			/>
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<div
+				on:click={clickHandler}
+				data-row="2"
+				data-col="2"
+				class="cell h-[250px] w-[250px] border flex justify-center items-center text-8xl"
+			/>
+		</section>
+	</main>
+{/if}
